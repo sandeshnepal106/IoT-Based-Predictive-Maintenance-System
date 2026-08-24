@@ -14,16 +14,23 @@ An enterprise-grade Industrial Internet of Things (IIoT) edge-to-cloud platform.
 ```
 
 .
-├── wokwi/                      # Edge Firmware & Hardware Simulation
-│   ├── diagram.json            # Wokwi circuit layout configuration
-│   └── sketch.ino              # C++ Firmware for ESP32 edge device
+├── Wokwi/                                                    # Edge Firmware & Hardware Simulation
+│   ├── diagram.json                                          # Wokwi circuit layout configuration
+│   ├── libraries.txt                                         # Libraries Required for the Wokwi Simulation
+│   └── sketch.ino                                            # C++ Firmware for ESP32 edge device
 │
-├── python/                     # Cloud Analytics & UI Dashboard
-│   ├── IIoT_Pipeline.ipynb     # Google Colab notebook workflow
-│   ├── app.py                  # Streamlit control dashboard & ML engine
-│   └── requirements.txt        # Python dependency definitions
+├── Simulation Results and Circuits/                          # Circuit Diagrams and Results
+│   ├── Basic Circuit.png                                     # Basic circuit Diagram
+│   ├── Circuit Under Fault Condition.png                     # Fault circuit Diagram
+│   ├── Circuit Under Normal Condition.png                    # Normal circuit Diagram
+│   └── Streamlit Real-Time Machine Telemetry Stream.png      # Real-Time Telemetry in Streamlit      
 │
-└── README.md                   # System documentation
+├── Python/                                                   # Cloud Analytics & UI Dashboard
+│   ├── IIoT_Based_Predictive_Maintenance_System.ipynb        # Google Colab notebook workflow
+│   ├── app.py                                                # Streamlit control dashboard & ML engine
+│   └── requirements.txt                                      # Python dependency definitions
+│
+└── README.md                                                 # System documentation
 
 ```
 
@@ -44,21 +51,20 @@ An enterprise-grade Industrial Internet of Things (IIoT) edge-to-cloud platform.
 
 ```
 
-┌───────────────────────────┐                ┌─────────────────────────┐
-│     Wokwi ESP32 Edge      │ --(Telemetry)->│      HiveMQ Broker      │
-│  - DHT22 (Temperature)   │   JSON Topic   │ (broker.hivemq.com:1883)│
-│  - Potentiometer (Wear)   │                └────────────┬────────────┘
-│  - Edge DSP Vibration RMS │                             │
-│  - Status LEDs (Run/Trip) │<--(Shutdown)─               │
-└───────────────────────────┘   Control Topic             │
-▼
-┌─────────────────────────┐
-│   Streamlit Dashboard   │
-│  - Real-time Plotting   │
-│  - Linear Regression RUL│
-│  - Automated Trip Logic │
-└─────────────────────────┘
-
+┌───────────────────────────┐                        ┌─────────────────────────┐
+│     Wokwi ESP32 Edge      │ -----(1. Telemetry)--->│      HiveMQ Broker      │
+│  - DHT22 (Temperature)    │                        │ (broker.hivemq.com:1883)│
+│  - Potentiometer (Wear)   │<-----(4. Shutdown)-----│                         │
+│  - Edge DSP Vibration RMS │                        └────┬───────────────▲────┘
+│  - Status LEDs (Run/Trip) │                             │               │
+└───────────────────────────┘             (2. Telemetry)  │               │ (3. Shutdown)
+                                                          ▼               │
+                                                     ┌─────────────────────────┐
+                                                     │   Streamlit Dashboard   │
+                                                     │  - Real-time Plotting   │
+                                                     │  - Linear Regression RUL│
+                                                     │  - Automated Trip Logic │
+                                                     └─────────────────────────┘
 ```
 
 ---
@@ -97,13 +103,13 @@ $$y = \beta_1 X + \beta_0 \implies \text{RUL} = \max\left(0, \left\lfloor\frac{1
 4. Paste `wokwi/sketch.ino` into the main code tab and press **Play**.
 
 ### Step 2: Run Cloud Analytics Dashboard (`/python`)
-1. Open `python/IIoT_Pipeline.ipynb` in Google Colab.
+1. Open `python/IIoT_Based_Predictive_Maintenance_System.ipynb` in Google Colab.
 2. Run the environment setup cells to install dependencies and generate `app.py`.
 3. Launch Streamlit and Localtunnel:
    ```bash
    !streamlit run app.py & npx -y localtunnel --port 8501
 4. Copy the IP address printed by `!curl ipv4.icanhazip.com`, open the generated `.loca.lt` link, and paste the IP into the Endpoint authentication box.
 
-```
-
-```
+   ```
+      example-for-link.loca.lt
+   ```
