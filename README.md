@@ -1,6 +1,4 @@
 
-
-```markdown
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
 ![ESP32](https://img.shields.io/badge/ESP32-C%2B%2B-green?logo=expressif)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red?logo=streamlit)
@@ -104,9 +102,6 @@ $$y = \beta_1 X + \beta_0 \implies \text{RUL} = \max\left(0, \left\lfloor\frac{1
 3. Launch Streamlit and Localtunnel:
    ```bash
    !streamlit run app.py & npx -y localtunnel --port 8501
-
-```
-
 4. Copy the IP address printed by `!curl ipv4.icanhazip.com`, open the generated `.loca.lt` link, and paste the IP into the Endpoint authentication box.
 
 ```
